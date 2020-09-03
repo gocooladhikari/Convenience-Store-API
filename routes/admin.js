@@ -88,7 +88,7 @@ router.route('/:userid/post').post(upload.single('picture'), (req, res) => {
 })
 
 
-router.route('/:postID/delete').get(ensureAuthenticated, (req, res) => {
+router.route('/:postID/delete').get( (req, res) => {
     if (req.user.id !== '5f4de3497e7c738d43075c3c'){
         res.send('You dont have authorization to delete')
     }else{
@@ -103,6 +103,19 @@ router.route('/:postID/delete').get(ensureAuthenticated, (req, res) => {
     }
 })
 
+
+
+router.route(':postID/edit').post((req, res) => {
+    Post.findById(req.params.postID).then(post => {
+        post.name = req.body.name
+        post.description = req.body.description
+        post.category = req.body.category
+        post.price = req.body.price
+
+        post.save().then(newpost => res.send(newpost))
+
+    }).catch(err => res.status(500).send('Server Error'))
+})
 
 
 module.exports = router
