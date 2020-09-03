@@ -89,9 +89,9 @@ router.route('/:userid/post').post(upload.single('picture'), (req, res) => {
 
 
 router.route('/:postID/delete').get( (req, res) => {
-    if (req.user.id !== '5f4de3497e7c738d43075c3c'){
-        res.send('You dont have authorization to delete')
-    }else{
+    // if (req.user.id !== '5f4de3497e7c738d43075c3c'){
+    //     res.send('You dont have authorization to delete')
+    // }else{
         Post.findById(req.params.postID).then(post => {
             if(!post){
                 res.send('Invalid url!!!')
@@ -100,7 +100,7 @@ router.route('/:postID/delete').get( (req, res) => {
                 res.send('removed')
             }
         }).catch(err => res.send(err))
-    }
+    // }
 })
 
 
