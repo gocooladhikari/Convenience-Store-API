@@ -2,6 +2,7 @@ const express = require('express')
 const mongoose = require('mongoose')
 const passport = require('passport')
 const bodyParser = require('body-parser')
+const cors = require('cors')
 const session = require('express-session')
 require('dotenv').config()
 
@@ -18,6 +19,8 @@ mongoose.connect('mongodb+srv://find-my-pet:findmypet123@cluster0-sspip.mongodb.
 const app = express()
 const PORT = process.env.PORT || 5050
 
+
+app.use(cors())
 
 // body parser 
 app.use(bodyParser.json())
