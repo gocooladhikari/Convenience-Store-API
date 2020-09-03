@@ -105,7 +105,7 @@ router.route('/:postID/delete').get( (req, res) => {
 
 
 
-router.route(':postID/edit').post((req, res) => {
+router.route('/:postID/edit').post((req, res) => {
     Post.findById(req.params.postID).then(post => {
         post.name = req.body.name
         post.description = req.body.description
