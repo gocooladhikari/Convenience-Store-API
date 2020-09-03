@@ -5,7 +5,6 @@ const bodyParser = require('body-parser')
 const session = require('express-session')
 require('dotenv').config()
 
-
 require('./config/passport')(passport)
 
 // Database Connection
