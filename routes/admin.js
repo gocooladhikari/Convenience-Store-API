@@ -118,12 +118,31 @@ router.route('/:postID/delete').get( (req, res) => {
 
 router.route('/:postID/edit').post((req, res) => {
     Post.findById(req.params.postID).then(post => {
-        post.name = req.body.name
-        post.description = req.body.description
-        post.category = req.body.category
-        post.price = req.body.price
+        
+        Category.find().then(data => {
+            for(var i = 0; i < data.length; i++){
+                // console.log(data[i])
+                for(var j = 0; j < data[i].posts.length; j++){
+                    if(data[i].posts[j].id === post.id){
+                        data[i].posts[j].name = req.body.name
+                        data[i].posts[j].description = req.body.description
+                        data[i].posts[j].category = req.body.category
+                        data[i].posts[j].price = req.body.price
+                        data[i].save()
+                        // console.log(data[i].posts[j])
+                    }
+                }
+            }
+            
+            post.name = req.body.name
+            post.description = req.body.description
+            post.category = req.body.category
+            post.price = req.body.price
 
-        post.save().then(newpost => res.send(newpost))
+
+
+            post.save().then(newpost => res.send(newpost))
+        }).catch(err => console.log(err))
 
     }).catch(err => res.status(500).send('Server Error'))
 })
