@@ -89,18 +89,29 @@ router.route('/:userid/post').post(upload.single('picture'), (req, res) => {
 
 
 router.route('/:postID/delete').get( (req, res) => {
-    // if (req.user.id !== '5f4de3497e7c738d43075c3c'){
-    //     res.send('You dont have authorization to delete')
-    // }else{
-        Post.findById(req.params.postID).then(post => {
-            if(!post){
-                res.send('Invalid url!!!')
-            }else{
+    Post.findById(req.params.postID).then(post => {
+        if(!post){
+            res.send('Invalid url!!!')
+        }else{
+            Category.find().then(data => {
+                for(var i = 0; i < data.length; i++){
+                    // console.log(data[i])
+                    for(var j = 0; j < data[i].posts.length; j++){
+                        if(data[i].posts[j].id === post.id){
+                            data[i].posts[j].remove()
+                            data[i].save()
+                            // console.log(data[i].posts[j])
+                        }
+                    }
+                }
+                
                 post.remove()
                 res.send('removed')
-            }
-        }).catch(err => res.send(err))
-    // }
+            }).catch(err => console.log(err))
+            
+        }
+    }).catch(err => res.send(err))
+    
 })
 
 
